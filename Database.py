@@ -145,20 +145,36 @@ def get_userfilms(user):
             {'user':user})
     return c.fetchall()
 
+
 def get_find_match(user1,user2):
     conn = sqlite3.connect(absolutePath()+'database.db')
     c = conn.cursor()
-    c.execute("""SELECT title, year FROM approvedmovies WHERE user = :user1 AND in (SELECT title, year FROM approvedmovies WHERE user = :user2)""",
-            {'user1':user1, 'user2':user2 })
+    c.execute("""SELECT *
+                FROM catalogo as c
+                WHERE c.title in (              
+                    SELECT am1.title
+                    from approvedmovies as am1
+                    where am1.user = :user1 and am1.title in (
+                        SELECT am2.title
+                        from approvedmovies as am2
+                        where am2.user = :user2))""",
+                {'user1':user1, 'user2':user2 })
     return c.fetchall()
     
-    
-def removeuserlist(user):
+def remove_user_list(user):
     conn = sqlite3.connect(absolutePath()+'database.db')
     c = conn.cursor()
     with conn:
         c.execute("""DELETE from approvedmovies WHERE user = :user""",
             {'user':user})
+
+        
+def remove_approved_film(user, title):
+    conn = sqlite3.connect(absolutePath()+'database.db')
+    c = conn.cursor()
+    with conn:
+        c.execute("""DELETE from approvedmovies WHERE user = :user and title = :title""",
+            {'user':user, 'title':title})
     
     
     

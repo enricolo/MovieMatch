@@ -48,26 +48,36 @@ class approvedFilms(Resource):
         Database.insert_approvedfilm(user, movie)
 
         return {"res" : "msg"}
-
-
-
+    
 class checkFilms(Resource):
     def get(self): 
         args = username2Args.parse_args()
         print(args)
-        id1movies = Database.get_userfilms(args['id1'])
-
-        id2movies = Database.get_userfilms(args['id2'])
+        
+        commonmovies = Database.get_find_match(args['id1'], args['id2'])
+                
+        print(commonmovies)
 
                 
-        print(id1movies)
-        print(id2movies)
-                
-        for movie in id1movies:
-            if(movie in id2movies):
-                return {"res" : movie}, 200
-            
-        return {"res" : "false"}, 404
+        response = []
+        if commonmovies:
+            for movie in commonmovies:
+                response.append({
+                    "Title":            movie[0],
+                    "TitleIta":         movie[1],
+                    "Year":             movie[2],
+                    "Image":            movie[3],
+                    "Genre":            movie[4],
+                    "AudienceRating":   movie[5],
+                    "Studio":           movie[6],
+                    "Plot":             movie[7]
+                    })
+            Database.remove_user_list(args['id1'])
+            Database.remove_user_list(args['id2'])
+            return {"res" : response}, 200
+        
+        else:
+            return {"res" : "false"}, 404
         
 
             
@@ -75,13 +85,11 @@ class searchUser(Resource):
     def get(self): 
         args = username2Args.parse_args()
         print(args)
-        print(args['id2'])
         if(args['id1'] == args['id2']):   #check if not null
             return {"res" : "same name"}, 404
         user = Database.get_user(args['id2'])
         print(user)
         if user:
-            Database.removeuserlist(args['id2'])
             return {"res" : "found"}, 200
         else:
             return {"res" : "not exists"}, 404
@@ -96,7 +104,7 @@ class userLogin(Resource):
         print(args['id1'])
         
         Database.insert_user(args['id1'])
-        Database.removeuserlist(args['id1'])
+        Database.remove_user_list(args['id1'])
         return {"res" : "ok"}, 201
     
     

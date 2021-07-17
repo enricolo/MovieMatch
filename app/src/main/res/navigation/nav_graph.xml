@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/usernameFragment">
+
+    <fragment
+        android:id="@+id/usernameFragment"
+        android:name="com.example.moviematch.fragments.UsernameFragment"
+        android:label="fragment_username"
+        tools:layout="@layout/fragment_username" >
+        <action
+            android:id="@+id/action_usernameFragment_to_roomChoiceFragment"
+            app:destination="@id/roomChoiceFragment"
+/>
+    </fragment>
+    <fragment
+        android:id="@+id/newRoomFragment"
+        android:name="com.example.moviematch.fragments.NewRoomFragment"
+        android:label="fragment_new_room"
+        tools:layout="@layout/fragment_new_room" >
+        <action
+            android:id="@+id/action_newRoomFragment_to_genreFragment"
+            app:destination="@id/genreFragment" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/roomChoiceFragment"
+        android:name="com.example.moviematch.fragments.RoomChoiceFragment"
+        android:label="fragment_room_choice"
+        tools:layout="@layout/fragment_room_choice" >
+        <action
+            android:id="@+id/action_roomChoiceFragment_to_setRoomFragment"
+            app:destination="@id/setRoomFragment" />
+        <action
+            android:id="@+id/action_roomChoiceFragment_to_newRoomFragment"
+            app:destination="@id/newRoomFragment" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/setRoomFragment"
+        android:name="com.example.moviematch.fragments.SetRoomFragment"
+        android:label="fragment_set_room"
+        tools:layout="@layout/fragment_set_room" >
+        <action
+            android:id="@+id/action_setRoomFragment_to_genreFragment"
+            app:destination="@id/genreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/genreFragment"
+        android:name="com.example.moviematch.fragments.GenreFragment"
+        android:label="fragment_genre"
+        tools:layout="@layout/fragment_genre" >
+        <action
+            android:id="@+id/action_genreFragment_to_platformFragment"
+            app:destination="@id/platformFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/platformFragment"
+        android:name="com.example.moviematch.fragments.PlatformFragment"
+        android:label="fragment_platform"
+        tools:layout="@layout/fragment_platform" >
+        <action
+            android:id="@+id/action_platformFragment_to_waitingFragment"
+            app:destination="@id/waitingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/waitingFragment"
+        android:name="com.example.moviematch.fragments.WaitingFragment"
+        android:label="fragment_waiting"
+        tools:layout="@layout/fragment_waiting" >
+        <action
+            android:id="@+id/action_waitingFragment_to_movieFragment"
+            app:destination="@id/movieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="com.example.moviematch.fragments.MovieFragment"
+        android:label="fragment_movie"
+        tools:layout="@layout/fragment_movie">
+        <action
+            android:id="@+id/action_movieFragment_to_matchedMovieFragment2"
+            app:destination="@id/matchedMovieFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchedMovieFragment"
+        android:name="com.example.moviematch.fragments.MatchedMovieFragment"
+        android:label="fragment_matched_movie"
+        tools:layout="@layout/fragment_matched_movie" />
+</navigation>
